@@ -12,7 +12,7 @@ from src.featuring import build_feats, build_dataset
 from src.optiparams import optuna_search_lgb
 
 folder_process = CONFIG['folder_process']
-file_clean = CONFIG['file_clean']
+data_clean = CONFIG['data_clean']
 nutri = CONFIG['selected_nutrient']
 seed = CONFIG['seed']
 knn_param_grid = CONFIG['knn_gridsrch']
@@ -47,7 +47,7 @@ def cleanup_data(path_parque):
     print('Before clean : ', df.shape)
     df = process_cleanup(df)
     print('After clean : ', df.shape)
-    df.write_parquet(file_clean)
+    df.write_parquet(data_clean)
 
 
 def compute_model(X, y):
@@ -78,7 +78,7 @@ def main():
         extract_data()
 
     # ETAPE B : create nutrient_cleaned.parquet
-    clean_file = list(Path().glob(file_clean))
+    clean_file = list(Path().glob(data_clean))
     if clean_file:
         print('B. 🧹 file clean')
     else:
@@ -87,17 +87,17 @@ def main():
         cleanup_data(files)
 
     # ETAPE C : add features à nutrient_cleaned.parquet
-    schema = pl.read_parquet_schema(file_clean)
+    schema = pl.read_parquet_schema(data_clean)
     if 'tag_0' in list(schema.keys()):
         print('C. 🥐 feature ok')
     else:
-        df = pl.read_parquet(file_clean)
+        df = pl.read_parquet(data_clean)
         df = build_feats(df)
-        df.write_parquet(file_clean)
+        df.write_parquet(data_clean)
         print('C. Feature added...')
 
 
-    # ETAPE D : build dataset
+    # ETAPE D : build dataset & feature cat encode
     X, X_out, y, y_out, X_all, y_all = build_dataset()
     print('Data size ', X_all.shape)
     print('Trainset size : ', X.shape)
@@ -105,8 +105,8 @@ def main():
 
     # # ETAPE E : model
     print('E. 🏓 Compare model...')
-    if False:
-        res = compute_model(X, y)
+    # res = compute_model(X, y)
+    # print('Resultat : ', res)
 
     # ETAPE F : recherche de meilleurs parametres
     try:
@@ -115,13 +115,10 @@ def main():
     except:
         lgb_best_params = optuna_search_lgb(X, y, X_out, y_out)
         print('F. LGBM parameter research...', lgb_best_params)
-        # last : {'cv_sc': array([0.923, 0.923]), 'sc_mean': np.float64(0.923)}
 
     # ETAPE G : save model
-    if True:
-        print('G.', model_lgb(X_all, y_all, lgb_best_params, save=True))
+    print('G.', model_lgb(X_all, y_all, lgb_best_params, save=True))
 
-    # analyse des erreurs du modèle
 
 if __name__ == '__main__':
     main()
