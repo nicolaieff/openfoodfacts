@@ -5,9 +5,9 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 
 from src.config import CONFIG, CAT_CUSTOM, CAT2_CUSTOM
-from src.country_map import COUNTRY_GROUP
+from src.config_country_map import COUNTRY_GROUP
 
-file_clean = CONFIG['file_clean']
+data_clean = CONFIG['data_clean']
 nutri = CONFIG['selected_nutrient']
 fats_nuts_seeds = CONFIG['fats_nuts_seeds']
 seed = CONFIG['seed']
@@ -198,7 +198,7 @@ def pl_train_test_split(df, test_size, seed):
 
 
 def build_dataset(to_viz=False):
-    df = pl.read_parquet(file_clean)
+    df = pl.read_parquet(data_clean)
     float_cols = [c for c, t in zip(df.columns, df.dtypes) if t == pl.Float64]
     df = df.with_columns([
         pl.col(float_cols).cast(pl.Float32)])
@@ -228,17 +228,17 @@ def nutrisc_algo(df, c):
         pl.when(pl.col('is_fats_nuts_seeds') == 1)
         .then(
             pl.when(pl.col(c) < -5).then(pl.lit('A'))
-            .when(pl.col(c).is_between(-5, 2)).then(pl.lit('B'))
-            .when(pl.col(c).is_between(3, 10)).then(pl.lit('C'))
-            .when(pl.col(c).is_between(11, 18)).then(pl.lit('D'))
+            .when(pl.col(c).is_between(-5, 3, closed="left")).then(pl.lit('B'))
+            .when(pl.col(c).is_between(3, 11, closed="left")).then(pl.lit('C'))
+            .when(pl.col(c).is_between(11, 19, closed="left")).then(pl.lit('D'))
             .when(pl.col(c) >= 19).then(pl.lit('E'))
             .otherwise(None)
         )
         .otherwise(  # Si ≠ 1
-            pl.when(pl.col(c) <= 0).then(pl.lit('A'))
-            .when(pl.col(c).is_between(1, 2)).then(pl.lit('B'))
-            .when(pl.col(c).is_between(3, 10)).then(pl.lit('C'))
-            .when(pl.col(c).is_between(11, 18)).then(pl.lit('D'))
+            pl.when(pl.col(c) < 1).then(pl.lit('A'))
+            .when(pl.col(c).is_between(1, 3, closed="left")).then(pl.lit('B'))
+            .when(pl.col(c).is_between(3, 11, closed="left")).then(pl.lit('C'))
+            .when(pl.col(c).is_between(11, 19, closed="left")).then(pl.lit('D'))
             .when(pl.col(c) >= 19).then(pl.lit('E'))
             .otherwise(None)
         )

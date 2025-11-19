@@ -5,7 +5,7 @@ CONFIG = {
 
     'folder_output': './output',
 
-    'file_clean': './data/processed/nutrient_cleaned.parquet',
+    'data_clean': './data/processed/nutrient_cleaned.parquet',
 
     'target': 'nutriscore_score',
 
