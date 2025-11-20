@@ -1,0 +1,149 @@
+additives_n, Type : Int32
+additives_tags, Type : List(String)
+allergens_tags, Type : List(String)
+
+brands_tags, Type : List(String)
+brands, Type : String
+
+categories, Type : String
+categories_tags, Type : List(String)
+categories_properties, Type : Struct({'ciqual_food_code': Int32, 'agribalyse_food_code': Int32, 'agribalyse_proxy_food_code': Int32})
+
+checkers_tags, Type : List(String)
+ciqual_food_name_tags, Type : List(String)
+
+cities_tags, Type : List(String)
+code, Type : String
+
+compared_to_category, Type : String
+complete, Type : Int32
+completeness, Type : Float32
+correctors_tags, Type : List(String)
+
+countries_tags, Type : List(String)
+
+created_t, Type : Int64
+creator, Type : String
+
+data_quality_errors_tags, Type : List(String)
+data_quality_info_tags, Type : List(String)
+data_quality_warnings_tags, Type : List(String)
+
+data_sources_tags, Type : List(String)
+
+ecoscore_data, Type : String
+ecoscore_grade, Type : String
+ecoscore_score, Type : Int32
+ecoscore_tags, Type : List(String)
+
+editors, Type : List(String)
+
+emb_codes_tags, Type : List(String)
+emb_codes, Type : String
+
+entry_dates_tags, Type : List(String)
+
+food_groups_tags, Type : List(String)
+generic_name, Type : List(Struct({'lang': String, 'text': String}))
+
+images, Type : List(Struct({'key': String, 'imgid': Int32, 'rev': Int32, 'sizes': Struct({'100': Struct({'h': Int32, 'w': Int32}), '200': Struct({'h': Int32, 'w': Int32}), '400': Struct({'h': Int32, 'w': Int32}), 'full': Struct({'h': Int32, 'w': Int32})}), 'uploaded_t': Int64, 'uploader': String}))
+informers_tags, Type : List(String)
+
+ingredients_analysis_tags, Type : List(String)                    - vege, vegan, ...
+ingredients_from_palm_oil_n, Type : Int32                         - huile de palme
+ingredients_n, Type : Int32                                       - nb d'ingredient
+ingredients_original_tags, Type : List(String)                    
+ingredients_percent_analysis, Type : Int32
+ingredients_tags, Type : List(String)                             - tag
+ingredients_text, Type : List(Struct({'lang': String, 'text': String}))  - text
+ingredients_with_specified_percent_n, Type : Int32                - avec %
+ingredients_with_unspecified_percent_n, Type : Int32
+ingredients_without_ciqual_codes_n, Type : Int32
+ingredients_without_ciqual_codes, Type : List(String)
+ingredients, Type : String
+known_ingredients_n, Type : Int32
+
+labels_tags, Type : List(String)                                  - gluten free, ..
+labels, Type : String
+
+lang, Type : String
+languages_tags, Type : List(String)
+
+last_edit_dates_tags, Type : List(String)
+last_editor, Type : String
+last_image_t, Type : Int64
+last_modified_by, Type : String
+last_modified_t, Type : Int64
+last_updated_t, Type : Int64
+
+link, Type : String
+
+main_countries_tags, Type : List(String)
+manufacturing_places_tags, Type : List(String)
+manufacturing_places, Type : String
+
+max_imgid, Type : Int32
+
+minerals_tags, Type : List(String)
+misc_tags, Type : List(String)
+
+new_additives_n, Type : Int32
+no_nutrition_data, Type : Boolean
+
+nova_group, Type : Int32
+nova_groups_tags, Type : List(String)
+nova_groups, Type : String
+
+nucleotides_tags, Type : List(String)
+
+nutrient_levels_tags, Type : List(String)
+nutriments, Type : List(Struct({'name': String, 'value': Float32, '100g': Float32, 'serving': Float32, 'unit': String, 'prepared_value': Float32, 'prepared_100g': Float32, 'prepared_serving': Float32, 'prepared_unit': String}))
+nutriscore_grade, Type : String
+nutriscore_score, Type : Int32
+nutrition_data_per, Type : String
+
+obsolete, Type : Boolean
+
+origins_tags, Type : List(String)
+origins, Type : String
+
+owner_fields, Type : List(Struct({'field_name': String, 'timestamp': Int64}))
+owner, Type : String
+
+packagings_complete, Type : Boolean
+packaging_recycling_tags, Type : List(String)
+packaging_shapes_tags, Type : List(String)
+packaging_tags, Type : List(String)
+packaging_text, Type : List(Struct({'lang': String, 'text': String}))
+packaging, Type : String
+packagings, Type : List(Struct({'material': String, 'number_of_units': Int64, 'quantity_per_unit': String, 'quantity_per_unit_unit': String, 'quantity_per_unit_value': String, 'recycling': String, 'shape': String, 'weight_measured': Float32}))
+
+photographers, Type : List(String)
+
+popularity_key, Type : Int64
+popularity_tags, Type : List(String)
+
+product_name, Type : List(Struct({'lang': String, 'text': String}))
+product_quantity_unit, Type : String
+product_quantity, Type : String
+purchase_places_tags, Type : List(String)
+
+quantity, Type : String
+
+rev, Type : Int32
+scans_n, Type : Int32
+serving_quantity, Type : String
+serving_size, Type : String
+
+states_tags, Type : List(String)
+
+stores_tags, Type : List(String)
+stores, Type : String
+
+traces_tags, Type : List(String)
+unique_scans_n, Type : Int32
+unknown_ingredients_n, Type : Int32
+unknown_nutrients_tags, Type : List(String)
+vitamins_tags, Type : List(String)
+with_non_nutritive_sweeteners, Type : Int32
+with_sweeteners, Type : Int32

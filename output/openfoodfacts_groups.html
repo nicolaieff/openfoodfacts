@@ -1,0 +1,155 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 700px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "orange", "font": {"color": "black"}, "id": "Additifs", "label": "Additifs", "shape": "box"}, {"color": "lightblue", "font": {"color": "black"}, "id": "additives_n", "label": "additives_n", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "additives_tags", "label": "additives_tags", "shape": "dot"}, {"color": "orange", "font": {"color": "black"}, "id": "Allerg\u00e8nes", "label": "Allerg\u00e8nes", "shape": "box"}, {"color": "lightblue", "font": {"color": "black"}, "id": "allergens_tags", "label": "allergens_tags", "shape": "dot"}, {"color": "orange", "font": {"color": "black"}, "id": "Marques", "label": "Marques", "shape": "box"}, {"color": "lightblue", "font": {"color": "black"}, "id": "brands", "label": "brands", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "brands_tags", "label": "brands_tags", "shape": "dot"}, {"color": "orange", "font": {"color": "black"}, "id": "Cat\u00e9gories", "label": "Cat\u00e9gories", "shape": "box"}, {"color": "lightblue", "font": {"color": "black"}, "id": "categories", "label": "categories", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "categories_tags", "label": "categories_tags", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "categories_properties", "label": "categories_properties", "shape": "dot"}, {"color": "orange", "font": {"color": "black"}, "id": "Scores", "label": "Scores", "shape": "box"}, {"color": "lightblue", "font": {"color": "black"}, "id": "nutriscore_score", "label": "nutriscore_score", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "nutriscore_grade", "label": "nutriscore_grade", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "nutriscore_tags", "label": "nutriscore_tags", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "ecoscore_score", "label": "ecoscore_score", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "ecoscore_grade", "label": "ecoscore_grade", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "ecoscore_tags", "label": "ecoscore_tags", "shape": "dot"}, {"color": "orange", "font": {"color": "black"}, "id": "Ingr\u00e9dients", "label": "Ingr\u00e9dients", "shape": "box"}, {"color": "lightblue", "font": {"color": "black"}, "id": "ingredients", "label": "ingredients", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "ingredients_tags", "label": "ingredients_tags", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "ingredients_text", "label": "ingredients_text", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "ingredients_n", "label": "ingredients_n", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "ingredients_with_specified_percent_n", "label": "ingredients_with_specified_percent_n", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "ingredients_with_unspecified_percent_n", "label": "ingredients_with_unspecified_percent_n", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "ingredients_percent_analysis", "label": "ingredients_percent_analysis", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "ingredients_from_palm_oil_n", "label": "ingredients_from_palm_oil_n", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "ingredients_without_ciqual_codes", "label": "ingredients_without_ciqual_codes", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "ingredients_without_ciqual_codes_n", "label": "ingredients_without_ciqual_codes_n", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "known_ingredients_n", "label": "known_ingredients_n", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "new_additives_n", "label": "new_additives_n", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "unknown_ingredients_n", "label": "unknown_ingredients_n", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "ingredients_original_tags", "label": "ingredients_original_tags", "shape": "dot"}, {"color": "orange", "font": {"color": "black"}, "id": "Nutrition", "label": "Nutrition", "shape": "box"}, {"color": "lightblue", "font": {"color": "black"}, "id": "nutriments", "label": "nutriments", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "nutrition_data_per", "label": "nutrition_data_per", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "no_nutrition_data", "label": "no_nutrition_data", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "nutrient_levels_tags", "label": "nutrient_levels_tags", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "unknown_nutrients_tags", "label": "unknown_nutrients_tags", "shape": "dot"}, {"color": "orange", "font": {"color": "black"}, "id": "Emballage", "label": "Emballage", "shape": "box"}, {"color": "lightblue", "font": {"color": "black"}, "id": "packaging", "label": "packaging", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "packaging_tags", "label": "packaging_tags", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "packaging_text", "label": "packaging_text", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "packagings", "label": "packagings", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "packagings_complete", "label": "packagings_complete", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "packaging_shapes_tags", "label": "packaging_shapes_tags", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "packaging_recycling_tags", "label": "packaging_recycling_tags", "shape": "dot"}, {"color": "orange", "font": {"color": "black"}, "id": "Produit", "label": "Produit", "shape": "box"}, {"color": "lightblue", "font": {"color": "black"}, "id": "product_name", "label": "product_name", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "generic_name", "label": "generic_name", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "quantity", "label": "quantity", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "product_quantity", "label": "product_quantity", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "product_quantity_unit", "label": "product_quantity_unit", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "serving_size", "label": "serving_size", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "serving_quantity", "label": "serving_quantity", "shape": "dot"}, {"color": "orange", "font": {"color": "black"}, "id": "Origine", "label": "Origine", "shape": "box"}, {"color": "lightblue", "font": {"color": "black"}, "id": "origins", "label": "origins", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "origins_tags", "label": "origins_tags", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "manufacturing_places", "label": "manufacturing_places", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "manufacturing_places_tags", "label": "manufacturing_places_tags", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "countries_tags", "label": "countries_tags", "shape": "dot"}, {"color": "orange", "font": {"color": "black"}, "id": "Dates", "label": "Dates", "shape": "box"}, {"color": "lightblue", "font": {"color": "black"}, "id": "created_t", "label": "created_t", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "last_modified_t", "label": "last_modified_t", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "last_image_t", "label": "last_image_t", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "last_updated_t", "label": "last_updated_t", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "entry_dates_tags", "label": "entry_dates_tags", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "last_edit_dates_tags", "label": "last_edit_dates_tags", "shape": "dot"}, {"color": "orange", "font": {"color": "black"}, "id": "Utilisateurs", "label": "Utilisateurs", "shape": "box"}, {"color": "lightblue", "font": {"color": "black"}, "id": "creator", "label": "creator", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "editors", "label": "editors", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "correctors_tags", "label": "correctors_tags", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "informers_tags", "label": "informers_tags", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "last_editor", "label": "last_editor", "shape": "dot"}, {"color": "lightblue", "font": {"color": "black"}, "id": "last_modified_by", "label": "last_modified_by", "shape": "dot"}]);
+                  edges = new vis.DataSet([{"from": "Additifs", "to": "additives_n"}, {"from": "Additifs", "to": "additives_tags"}, {"from": "Allerg\u00e8nes", "to": "allergens_tags"}, {"from": "Marques", "to": "brands"}, {"from": "Marques", "to": "brands_tags"}, {"from": "Cat\u00e9gories", "to": "categories"}, {"from": "Cat\u00e9gories", "to": "categories_tags"}, {"from": "Cat\u00e9gories", "to": "categories_properties"}, {"from": "Scores", "to": "nutriscore_score"}, {"from": "Scores", "to": "nutriscore_grade"}, {"from": "Scores", "to": "nutriscore_tags"}, {"from": "Scores", "to": "ecoscore_score"}, {"from": "Scores", "to": "ecoscore_grade"}, {"from": "Scores", "to": "ecoscore_tags"}, {"from": "Ingr\u00e9dients", "to": "ingredients"}, {"from": "Ingr\u00e9dients", "to": "ingredients_tags"}, {"from": "Ingr\u00e9dients", "to": "ingredients_text"}, {"from": "Ingr\u00e9dients", "to": "ingredients_n"}, {"from": "Ingr\u00e9dients", "to": "ingredients_with_specified_percent_n"}, {"from": "Ingr\u00e9dients", "to": "ingredients_with_unspecified_percent_n"}, {"from": "Ingr\u00e9dients", "to": "ingredients_percent_analysis"}, {"from": "Ingr\u00e9dients", "to": "ingredients_from_palm_oil_n"}, {"from": "Ingr\u00e9dients", "to": "ingredients_without_ciqual_codes"}, {"from": "Ingr\u00e9dients", "to": "ingredients_without_ciqual_codes_n"}, {"from": "Ingr\u00e9dients", "to": "known_ingredients_n"}, {"from": "Ingr\u00e9dients", "to": "new_additives_n"}, {"from": "Ingr\u00e9dients", "to": "unknown_ingredients_n"}, {"from": "Ingr\u00e9dients", "to": "ingredients_original_tags"}, {"from": "Nutrition", "to": "nutriments"}, {"from": "Nutrition", "to": "nutrition_data_per"}, {"from": "Nutrition", "to": "no_nutrition_data"}, {"from": "Nutrition", "to": "nutrient_levels_tags"}, {"from": "Nutrition", "to": "unknown_nutrients_tags"}, {"from": "Emballage", "to": "packaging"}, {"from": "Emballage", "to": "packaging_tags"}, {"from": "Emballage", "to": "packaging_text"}, {"from": "Emballage", "to": "packagings"}, {"from": "Emballage", "to": "packagings_complete"}, {"from": "Emballage", "to": "packaging_shapes_tags"}, {"from": "Emballage", "to": "packaging_recycling_tags"}, {"from": "Produit", "to": "product_name"}, {"from": "Produit", "to": "generic_name"}, {"from": "Produit", "to": "quantity"}, {"from": "Produit", "to": "product_quantity"}, {"from": "Produit", "to": "product_quantity_unit"}, {"from": "Produit", "to": "serving_size"}, {"from": "Produit", "to": "serving_quantity"}, {"from": "Origine", "to": "origins"}, {"from": "Origine", "to": "origins_tags"}, {"from": "Origine", "to": "manufacturing_places"}, {"from": "Origine", "to": "manufacturing_places_tags"}, {"from": "Origine", "to": "countries_tags"}, {"from": "Dates", "to": "created_t"}, {"from": "Dates", "to": "last_modified_t"}, {"from": "Dates", "to": "last_image_t"}, {"from": "Dates", "to": "last_updated_t"}, {"from": "Dates", "to": "entry_dates_tags"}, {"from": "Dates", "to": "last_edit_dates_tags"}, {"from": "Utilisateurs", "to": "creator"}, {"from": "Utilisateurs", "to": "editors"}, {"from": "Utilisateurs", "to": "correctors_tags"}, {"from": "Utilisateurs", "to": "informers_tags"}, {"from": "Utilisateurs", "to": "last_editor"}, {"from": "Utilisateurs", "to": "last_modified_by"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

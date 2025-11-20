@@ -1,0 +1,11 @@
+meat
+meals_and_condiments
+cereal_and_pasta
+snacks_and_sweets
+vegetable
+bakery_bread
+fruit
+supplements_and_sweeteners
+dairy_and_egg
+fish_eafood
+plant_based_products

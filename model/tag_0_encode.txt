@@ -1,0 +1,7 @@
+dairy_products
+processed_food
+sweet_desserts
+salty_snacks_sauces
+cereals
+meat_fish_eggs
+fruits_vege_legumes
